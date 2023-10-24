@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ROUTING</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="leaflet.css">
+
+  <style>
+  
+    #map {
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }
+
+    .divButton-download {
+      border: 2px solid red;
+      border-radius: 5px;
+    }
+
+    .divButton {
+	  margin: 10px 0px 0px 1px;
+      position: absolute;
+      z-index: 1000;
+      top: 110px;
+    }
+	.button:hover {
+      background-color:#EBFFF3;
+    }
+
+    .button {
+	  height:35px;
+	  width:35px;
+      background-color: white;
+	  border: 2px solid rgba(192, 192, 192, .7);
+	  border-radius:20%;
+	  text-align:center;
+    }
+	.formFile{
+		right:10px;
+		background-color:white;
+		z-index:1050;
+		position:absolute;
+		border: 2px solid #ccc;
+		display: inline-block;
+		padding: 6px 12px;
+		cursor: pointer;
+		border-radius:20%
+	}
+	.formFile:hover{
+		background-color: gray;
+	}
+	.icon{
+		cursor: pointer;
+		width:20px;
+		height:20px
+	}
+	
+  </style>
+</head>
+
+<body>
+  <div action="" class="formFile">
+	<label for="myFile"><img src="images/cloud-upload.png" class="icon"></img></label>
+	<input type="file" id="myFile" style="display:none"></input>
+	<!--input type="button" value="importar" onclick="importar()"></input-->
+  </div>
+  <div id="map"></div>
+  <div class="divButton">
+	<button id="path" class="button " onclick="initRouting()">
+      <img class="icon" src="images/route.png" alt="">
+    </button><br><br>
+    <button id="clean" class="button ">
+      <img class="icon" src="images/eraser.png" alt="">
+    </button>
+  </div>
+
+</body>
+
+<script src="jquery.min.js"></script>
+<script src="leaflet.js"></script>
+<script src="leaflet.geocsv.js"></script>
+<script src="app_r.js"></script>
+<script src="app_r_multi.js"></script>
+<script>
+	/*var mi_geocsv = null;
+	//function importar(){
+		//var url = document.getElementById('myFile');
+		//console.log(url.files[0].name)
+		//var ash = url.files[0].name;
+		var mi_geocsv = L.geoCsv(null, {firstLineTitles: true, fieldSeparator: ',',WKTTitle: 'Feature', debug: true,});
+		//...
+		var url = document.getElementById('myFile');
+		url.onchange = async () => {
+		  const file = url.files[0]
+		  const text = await file.text()
+		  mi_geocsv.addData(text);
+		  map.addLayer(mi_geocsv);
+		  map.fitBounds(mi_geocsv.getBounds())
+		  //console.log(text)
+		  var array =[];
+		  mi_geocsv.eachLayer(function(layer){
+			  var lat = layer.getLatLng().lat;
+			  var lng = layer.getLatLng().lng;
+			  var coord= `${lng}%20${lat}`;
+			  array.push(coord);
+		  })
+		  multiPath(array);
+		  console.log(array);
+		}
+		/*$.ajax ({
+		  type:'GET',
+		  dataType:'text',
+		  url:ash,
+		  error: function() {
+			alert('No se pudieron cargar los datos');
+		  },
+		  success: function(csv) {
+			mi_geocsv.addData(csv);
+			map.addLayer(mi_geocsv);
+			//map.fitBounds(mi_geocsv.getBounds());
+		  }
+		});*/
+	//}*/
+</script>
+</html>
