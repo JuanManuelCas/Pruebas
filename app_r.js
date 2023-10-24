@@ -1,4 +1,4 @@
-var geoserverUrl = "http://localhost:8080/geoserver";
+var geoserverUrl = "https://192.168.0.16:8080/geoserver";
 var selectedPoint = null;
 
 var source = null;
