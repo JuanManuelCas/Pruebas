@@ -13,31 +13,38 @@ let selectPoint = null;
 async function loadCsv(file) {
   try {
     const text = await file.text();
-    const geoCsv = L.geoCsv(null, {
-      firstLineTitles: true,
-      fieldSeparator: ',',
-      WKTTitle: 'Feature',
-      debug: true,
-      onEachFeature: function(feature, layer) {
-        var popup = '';
-        for (var nom in feature.properties) {
-          var title = geoCsv.getPropertyTitle(nom);
-          popup += '<b>' + title + '</b><br />' + feature.properties[nom] + '<br /><br />';
-        }
-        layer.bindPopup(popup);
+    const geoJson = geojson.parse(text, { delimiter: ',' });
+    geoJson.features.forEach(feature => {
+      switch (feature.geometry.type) {
+        case 'Point':
+          const marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]);
+          marker.bindPopup(feature.properties.name);
+          map.addLayer(marker);
+          break;
+        case 'LineString':
+          const polyline = L.polyline(feature.geometry.coordinates, {
+            color: 'blue',
+            weight: 2,
+            opacity: 0.5
+          });
+          polyline.bindPopup(feature.properties.name);
+          map.addLayer(polyline);
+          break;
+        case 'Polygon':
+          const polygon = L.polygon(feature.geometry.coordinates, {
+            color: 'blue',
+            weight: 2,
+            opacity: 0.5
+          });
+          polygon.bindPopup(feature.properties.name);
+          map.addLayer(polygon);
+          break;
+        default:
+          console.log(`Unknown geometry type: ${feature.geometry.type}`);
       }
     });
-    geoCsv.addData(text);
-    map.addLayer(geoCsv);
-    map.fitBounds(geoCsv.getBounds());
+    map.fitBounds(L.latLngBounds(geoJson.features.map(feature => feature.geometry.bounds)));
     console.log(text);
-    geoCsv.eachLayer(function(layer) {
-      var lat = layer.getLatLng().lat;
-      var lng = layer.getLatLng().lng;
-      var latlng = layer.getLatLng();
-      arrayToVertex.push(latlng);
-    });
-    multiPath(arrayToVertex);
   } catch (error) {
     console.error(error);
   }
