@@ -1,5 +1,5 @@
 // Declaración de variables y constantes
-const geoserverUrl = 'https://example.com/geoserver';
+const geoserverUrl = 'http//localhost:8080/geoserver';
 const map = L.map('map').setView([40.7128, -74.0060], 13);
 const layerGroup = L.layerGroup().addTo(map);
 const tooltip = L.tooltip();
